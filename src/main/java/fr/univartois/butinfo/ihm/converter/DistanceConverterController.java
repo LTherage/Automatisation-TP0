@@ -80,9 +80,9 @@ public class DistanceConverterController {
             double metres = pieds * pied_en_metres;
 
 
-            metreTextField.setText(String.format("%.2f", metres));
-            yardTextField.setText(String.format("%.2f", metres / yard_en_metres));
-            mileTextField.setText(String.format("%.2f", metres / mile_en_metres));
+            metreTextField.setHeaderText(String.format("%.2f", metres));
+            yardTextField.setHeaderText(String.format("%.2f", metres / yard_en_metres));
+            mileTextField.setHeaderText(String.format("%.2f", metres / mile_en_metres));
         } catch (NumberFormatException e) {
             afficherErreur("La valeur entrée n'est pas un nombre valide !");
         }
