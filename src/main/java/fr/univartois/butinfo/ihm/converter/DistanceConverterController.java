@@ -77,7 +77,7 @@ public class DistanceConverterController {
         try {
 
             double pieds = Double.parseDouble(piedsTextField.getText());
-            double metres = pieds * pied_en_metres;
+            double metrs = pieds * pied_en_metres;
 
 
             metreTextField.setHeaderText(String.format("%.2f", metres));
