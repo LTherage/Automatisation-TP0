@@ -32,6 +32,8 @@ public class DistanceConverterController {
     /**
      * Le label de l'application, où l'on va pouvoir afficher des messages.
      * Cet attribut sera initialisé automatiquement par JavaFX grâce à l'annotation {@link FXML}.
+
+     La modif se fait ici de la question 10
      */
 
     @FXML
