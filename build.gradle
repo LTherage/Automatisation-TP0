@@ -18,12 +18,10 @@ repositories {
     mavenCentral()
 }
 
-
-
 // Le nom de la classe contenant la méthode "main".
 // Notez que le paquetage complet doit être spécifié.
 application {
-    mainClass = 'fr.univartois.butinfo.ihm.DistanceConverterApplication'
+    mainClass = 'fr.univartois.butinfo.ihm.converter.DistanceConverterApplication'
 }
 
 // La version de JavaFX utilisée dans le projet, et les composants requis.
