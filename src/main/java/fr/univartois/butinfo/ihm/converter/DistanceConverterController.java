@@ -16,6 +16,8 @@
 
 package fr.univartois.butinfo.ihm.converter;
 
+import java.util.Locale;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -29,118 +31,105 @@ import javafx.scene.control.TextField;
  */
 public class DistanceConverterController {
 
-    /**
-     * Le label de l'application, où l'on va pouvoir afficher des messages.
-     * Cet attribut sera initialisé automatiquement par JavaFX grâce à l'annotation {@link FXML}.
-
-     La modif se fait ici de la question 10
-     */
-
     @FXML
     private TextField metreTextField, piedsTextField, yardTextField, mileTextField;
 
-
-    private final double pied_en_metres = 0.3048;
-    private final double yard_en_metres = 0.9144;
-    private final double mile_en_metres = 1609.34;
+    private static final double PIED_EN_METRES = 0.3048;
+    private static final double YARD_EN_METRES = 0.9144;
+    private static final double MILE_EN_METRES = 1609.34;
 
     @FXML
     private void onMetreConvert() {
-
-        if (metreTextField.getText().isEmpty()) {
-            afficherErreur("Veuillez entrer une valeur en mètres !");
+        double metres = parseValue(metreTextField, "mètres");
+        if (Double.isNaN(metres)) {
+            return;
         }
-
-        try {
-            double metres = Double.parseDouble(metreTextField.getText());
-
-
-            piedsTextField.setText(String.format("%.2f", metres / pied_en_metres));
-
-
-            yardTextField.setText(String.format("%.2f", metres / pied_en_metres));
-
-
-            mileTextField.setText(String.format("%.2f", metres / pied_en_metres));
-        } catch (NumberFormatException e) {
-            afficherErreur("La valeur entrée n'est pas un nombre valide !");
-        }
+        afficherConversionDepuisMetres(metres);
     }
 
     @FXML
     private void onPiedsConvert() {
-        // onPiedsConvert permet de convertir les pieds en mètres, yards et miles
-        if (piedsTextField.getText().isEmpty()) {
-            afficherErreur("Veuillez entrer une valeur en pieds !");
+        double pieds = parseValue(piedsTextField, "pieds");
+        if (Double.isNaN(pieds)) {
+            return;
         }
-
-        try {
-
-            double pieds = Double.parseDouble(piedsTextField.getText());
-            double metres = pieds * pied_en_metres;
-
-
-            metreTextField.setHeaderText(String.format("%.2f", metres));
-            yardTextField.setHeaderText(String.format("%.2f", metres / yard_en_metres));
-            mileTextField.setHeaderText(String.format("%.2f", metres / mile_en_metres));
-        } catch (NumberFormatException e) {
-            afficherErreur("La valeur entrée n'est pas un nombre valide !");
-        }
+        afficherConversionDepuisMetres(pieds * PIED_EN_METRES);
     }
 
     @FXML
     private void onYardConvert() {
-        // onYardConvert permet de convertir les yards en mètres, pieds et miles
-        if (yardTextField.getText().isEmpty()) {
-            afficherErreur("Veuillez entrer une valeur en yards !");
+        double yards = parseValue(yardTextField, "yards");
+        if (Double.isNaN(yards)) {
+            return;
         }
-
-        try {
-
-            double yards = Double.parseDouble(yardTextField.getText());
-            double metres = yards * yard_en_metres;
-
-
-            metreTextField.setText(String.format("%.2f", metres));
-            piedsTextField.setText(String.format("%.2f", metres /pied_en_metres));
-            mileTextField.setText(String.format("%.2f", metres / mile_en_metres));
-        } catch (NumberFormatException e) {
-            afficherErreur("La valeur entrée n'est pas un nombre valide !");
-        }
+        afficherConversionDepuisMetres(yards * YARD_EN_METRES);
     }
 
     @FXML
     private void onMileConvert() {
-        // onMileConvert permet de convertir les miles en mètres, pieds et yards
-        if (mileTextField.getText().isEmpty()) {
-            afficherErreur("Veuillez entrer une valeur en miles !");
+        double miles = parseValue(mileTextField, "miles");
+        if (Double.isNaN(miles)) {
+            return;
+        }
+        afficherConversionDepuisMetres(miles * MILE_EN_METRES);
+    }
+
+    @FXML
+    private void onConvertAll() {
+        if (!metreTextField.getText().isBlank()) {
+            onMetreConvert();
+            return;
+        }
+        if (!piedsTextField.getText().isBlank()) {
+            onPiedsConvert();
+            return;
+        }
+        if (!yardTextField.getText().isBlank()) {
+            onYardConvert();
+            return;
+        }
+        if (!mileTextField.getText().isBlank()) {
+            onMileConvert();
+            return;
+        }
+
+        afficherErreur("Veuillez entrer une valeur dans au moins un champ pour convertir.");
+    }
+
+    @FXML
+    private void onResetFields() {
+        metreTextField.clear();
+        piedsTextField.clear();
+        yardTextField.clear();
+        mileTextField.clear();
+    }
+
+    private void afficherConversionDepuisMetres(double metres) {
+        metreTextField.setText(String.format(Locale.US, "%.2f", metres));
+        piedsTextField.setText(String.format(Locale.US, "%.2f", metres / PIED_EN_METRES));
+        yardTextField.setText(String.format(Locale.US, "%.2f", metres / YARD_EN_METRES));
+        mileTextField.setText(String.format(Locale.US, "%.2f", metres / MILE_EN_METRES));
+    }
+
+    private double parseValue(TextField field, String label) {
+        if (field.getText() == null || field.getText().isBlank()) {
+            afficherErreur("Veuillez entrer une valeur en " + label + " !");
+            return Double.NaN;
         }
 
         try {
-
-            double miles = Double.parseDouble(mileTextField.getText());
-            double metres = miles * mile_en_metres;
-
-
-            metreTextField.setText(String.format("%.2f", metres));
-            piedsTextField.setText(String.format("%.2f", metres / pied_en_metres));
-            yardTextField.setText(String.format("%.2f", metres / yard_en_metres));
+            return Double.parseDouble(field.getText().replace(',', '.'));
         } catch (NumberFormatException e) {
             afficherErreur("La valeur entrée n'est pas un nombre valide !");
+            return Double.NaN;
         }
     }
 
-
     private void afficherErreur(String message) {
-        // J'affiche l'erreur de saisie lors de la conversion
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur de saisie");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }
-
-

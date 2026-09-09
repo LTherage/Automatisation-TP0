@@ -7,31 +7,34 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
       fx:controller="fr.univartois.butinfo.ihm.converter.DistanceConverterController">
 
+    <Label text="Convertisseur de distances" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
     <HBox spacing="10" alignment="CENTER">
-        <Label text="Mètres"/>
+        <Label text="Mètres" minWidth="80"/>
         <TextField fx:id="metreTextField"/>
         <Button text="Convertir" onAction="#onMetreConvert"/>
     </HBox>
 
-
     <HBox spacing="10" alignment="CENTER">
-        <Label text="Pieds"/>
+        <Label text="Pieds" minWidth="80"/>
         <TextField fx:id="piedsTextField"/>
         <Button text="Convertir" onAction="#onPiedsConvert"/>
     </HBox>
 
-
     <HBox spacing="10" alignment="CENTER">
-        <Label text="Yards"/>
+        <Label text="Yards" minWidth="80"/>
         <TextField fx:id="yardTextField"/>
         <Button text="Convertir" onAction="#onYardConvert"/>
     </HBox>
 
-
     <HBox spacing="10" alignment="CENTER">
-        <Label text="Miles"/>
+        <Label text="Miles" minWidth="80"/>
         <TextField fx:id="mileTextField"/>
         <Button text="Convertir" onAction="#onMileConvert"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Tout convertir" onAction="#onConvertAll"/>
+        <Button text="Effacer" onAction="#onResetFields"/>
     </HBox>
 </VBox>
